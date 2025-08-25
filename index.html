@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <title>How should we execute the project?</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2em;
+    }
+    .toggle-container {
+      display: flex;
+      gap: 2em;
+    }
+    .switch {
+      display: flex;
+      align-items: center;
+      gap: 0.5em;
+      cursor: pointer;
+      font-size: 1.2em;
+    }
+    .switch input {
+      display: none;
+    }
+    .slider {
+      position: relative;
+      width: 50px;
+      height: 28px;
+      background-color: #ccc;
+      border-radius: 28px;
+      transition: 0.3s;
+    }
+    .slider::before {
+      content: "";
+      position: absolute;
+      left: 4px;
+      top: 4px;
+      height: 20px;
+      width: 20px;
+      border-radius: 50%;
+      background: white;
+      transition: 0.3s;
+    }
+    .switch input:checked + .slider {
+      background-color: #2196F3;
+    }
+    .switch input:checked + .slider::before {
+      transform: translateX(22px);
+    }
+  </style>
+</head>
+<body>
+  <h2>How should we execute the project?</h2>
+  <div class="toggle-container">
+    <label class="switch">
+      <input type="checkbox" id="fast">
+      <span class="slider"></span>
+      Fast
+    </label>
+    <label class="switch">
+      <input type="checkbox" id="cheap">
+      <span class="slider"></span>
+      Cheap
+    </label>
+    <label class="switch">
+      <input type="checkbox" id="good">
+      <span class="slider"></span>
+      Good
+    </label>
+  </div>
+  <script>
+    const toggles = [
+      document.getElementById('fast'),
+      document.getElementById('cheap'),
+      document.getElementById('good')
+    ];
+
+    toggles.forEach((toggle, idx) => {
+      toggle.addEventListener('change', () => {
+        const checkedToggles = toggles
+          .map((t, i) => ({t, i}))
+          .filter(obj => obj.t.checked);
+
+        if (checkedToggles.length > 2) {
+          // Erstelle Liste der eingeschalteten (aber nicht den aktuellen)
+          const otherChecked = checkedToggles.filter(obj => obj.i !== idx);
+
+          // Zufällig einen auswählen
+          const toSwitchOff = otherChecked[Math.floor(Math.random() * otherChecked.length)];
+          toSwitchOff.t.checked = false;
+        }
+      });
+    });
+  </script>
+</body>
+</html>
